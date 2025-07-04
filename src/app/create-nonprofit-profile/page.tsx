@@ -10,7 +10,7 @@ import { useWallet } from '../../context/WalletContext'
 import { depositVault } from '../../lib/contracts/depositVault'
 import { generateProfileImage } from '../../lib/generateImage'
 import { FEATURES } from '../../lib/config'
-
+import TweetButton from '@/components/TweetButton'
 interface ImpactAction {
   title: string
   achievedImpact: string
@@ -301,6 +301,7 @@ const CreateNonProfitProfile = () => {
           <>
             <div className='lg:col-span-2'>
               {/* Impact Product Data Form */}
+
               <div className='rounded-lg border border-gray-800 bg-black/50 p-6'>
                 <h2 className='mb-6 text-xl font-semibold'>
                   IMPACT PRODUCT DATA
@@ -633,12 +634,12 @@ const CreateNonProfitProfile = () => {
               <h3 className='mb-4 text-lg font-medium'>
                 Promote to your community and potential buyers
               </h3>
-              <button
-                className='w-full rounded-md bg-[#B4F481] py-2 font-medium text-black hover:bg-[#9FE070] disabled:cursor-not-allowed disabled:opacity-50'
-                disabled={currentStep !== 3}
-              >
-                SHARE
-              </button>
+              {/*------------ Tweet Button here ---------  */}
+              <TweetButton
+                text={
+                  '🚀 Just listed my real-world impact product on RegenBazar! 🌱💧 Explore it here: https://regenbazar.com'
+                }
+              />
             </div>
           </div>
         )

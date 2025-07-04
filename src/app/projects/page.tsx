@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { Leaf, Search } from 'lucide-react'
 import toast from 'react-hot-toast'
 import PurchaseModal from '../../components/PurchaseModal'
+import TweetButton from '@/components/TweetButton'
 
 interface Project {
   id: string
@@ -50,7 +51,10 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false)
   const [walletAddress, _setWalletAddress] = useState<string | null>(null)
-
+  {
+    /*------------ state to manage purchase status ---------  */
+  }
+  const [isPurchaseSuccess, setIsPurchaseSuccess] = useState(false)
   useEffect(() => {
     // const checkWallet = async () => {
     //   if (typeof window.ethereum !== 'undefined') {
@@ -134,6 +138,10 @@ const Projects = () => {
   }
 
   const handlePurchaseComplete = () => {
+    {
+      /*------------ updating state of purchase ---------  */
+    }
+    setIsPurchaseSuccess(true)
     fetchProjects() // Refresh projects to update purchase counts
     setIsPurchaseModalOpen(false)
     setSelectedProject(null)
@@ -265,6 +273,14 @@ const Projects = () => {
             project={selectedProject}
             walletAddress={walletAddress}
             onPurchaseComplete={handlePurchaseComplete}
+          />
+        )}
+        {/*------------ Tweet Button here ---------  */}
+        {isPurchaseSuccess && (
+          <TweetButton
+            text={
+              '🎉 I just bought a real-world impact product on RegenBazar! Supporting change while collecting cool NFTs 💚 Check it out: https://regenbazar.com'
+            }
           />
         )}
       </div>
