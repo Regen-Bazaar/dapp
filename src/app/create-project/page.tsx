@@ -1,5 +1,7 @@
 'use client'
 
+import TweetButton from '../../components/ui/TweetButton'
+
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
@@ -101,8 +103,41 @@ const CreateProject = () => {
 
       if (projectError) throw projectError
 
-      toast.success('Project created successfully!')
-      router.push('/organizations')
+      toast.custom(
+        (t) => (
+          <div
+            className={`${t.visible ? 'animate-enter' : 'animate-leave'}
+              pointer-events-auto flex w-full max-w-md rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
+          >
+            <div className="w-0 flex-1 p-4">
+              <div className="flex items-start">
+                <div className="ml-3 flex-1">
+                  <p className="text-sm font-medium text-gray-900">
+                    Project created successfully!
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    Share your new project with the world!
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center border-l border-gray-200 p-2">
+              <TweetButton
+                tweetText={`I just listed my new project "${formData.title}" for funding! Check it out. #crowdfunding #web3 #socialimpact`}
+              />
+              <button
+                onClick={() => router.push('/organizations')}
+                className="ml-2 rounded bg-gray-200 px-3 py-1 text-sm text-gray-700 hover:bg-gray-300"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        ),
+        {
+          duration: 10000, // Keep the toast open longer
+        }
+      )
     } catch (error) {
       console.error('Error creating project:', error)
       toast.error('Failed to create project')

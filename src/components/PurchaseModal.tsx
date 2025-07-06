@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import TweetButton from './ui/TweetButton'
 import { X, CheckCircle2 } from 'lucide-react'
 import { projectService } from '../lib/projectService'
 import { depositVault } from '../lib/contracts/depositVault'
@@ -65,7 +66,7 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
         if (result.success) {
           setStep('complete')
           onPurchaseComplete()
-          toast.success('Purchase successful!')
+          setStep('complete')
         } else {
           throw new Error(result.error || 'Purchase failed')
         }
@@ -150,20 +151,25 @@ const PurchaseModal: React.FC<PurchaseModalProps> = ({
 
       case 'complete':
         return (
-          <div className='py-8 text-center'>
-            <CheckCircle2 className='mx-auto mb-4 h-12 w-12 text-[#B4F481]' />
-            <h3 className='mb-2 text-xl font-semibold text-white'>
+          <div className="py-8 text-center">
+            <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-[#B4F481]" />
+            <h3 className="mb-2 text-xl font-semibold text-white">
               Purchase Complete!
             </h3>
-            <p className='mb-6 text-gray-400'>
+            <p className="mb-6 text-gray-400">
               Your impact product has been purchased successfully.
             </p>
-            <button
-              onClick={onClose}
-              className='rounded bg-[#B4F481] px-4 py-2 text-black hover:bg-[#9FE070]'
-            >
-              Close
-            </button>
+            <div className="mt-6 flex justify-center gap-4">
+              <TweetButton
+                tweetText={`I just bought an impact token for "${project.title}"! Join me in making a difference. #socialimpact #web3`}
+              />
+              <button
+                onClick={onClose}
+                className="rounded bg-gray-700 px-4 py-2 text-white hover:bg-gray-600"
+              >
+                Close
+              </button>
+            </div>
           </div>
         )
     }
