@@ -1,5 +1,7 @@
 'use client'
 
+import TweetButton from '../../components/ui/TweetButton'
+
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { getProvider } from '../../lib/web3'
@@ -162,6 +164,14 @@ const Stake = () => {
       return
     }
 
+    const productToStake = availableProducts.find(
+      (p) => p.purchase_id === purchaseId
+    )
+    if (!productToStake) {
+      toast.error('Could not find the product to stake.')
+      return
+    }
+
     setIsProcessing(true)
     try {
       // First make the deposit using the smart contract
@@ -191,7 +201,40 @@ const Stake = () => {
               fetchStakedTokens(walletAddress),
             ])
           }
-          toast.success('Successfully staked')
+          toast.custom(
+            (t) => (
+              <div
+                className={`${t.visible ? 'animate-enter' : 'animate-leave'}
+                  pointer-events-auto flex w-full max-w-md rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5`}
+              >
+                <div className="w-0 flex-1 p-4">
+                  <div className="flex items-start">
+                    <div className="ml-3 flex-1">
+                      <p className="text-sm font-medium text-gray-900">
+                        Successfully staked {productToStake.title}!
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        Share your achievement with the world!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center border-l border-gray-200 p-2">
+                  <TweetButton
+                    tweetText={`I just staked ${
+                      productToStake.title
+                    } and earned Impact Value! #staking #${productToStake.organization?.name.replace(
+                      /\s/g,
+                      ''
+                    )}`}
+                  />
+                </div>
+              </div>
+            ),
+            {
+              duration: 10000,
+            }
+          )
         } else {
           throw new Error(result.error || 'Failed to stake product')
         }
@@ -407,12 +450,17 @@ const Stake = () => {
                     <span className='text-white'>{token.lock_end_date}</span>
                   </p>
                   {hoveredItem === `staked-token-${token.id}` && (
-                    <button
-                      onClick={() => handleWithdraw(token.id)}
-                      className='rounded bg-[#1A2F1D] px-4 py-2 text-[#B4F481] transition-colors hover:bg-[#2A462C]'
-                    >
-                      withdraw
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <TweetButton
+                        tweetText={`I'm earning ${token.apr}% APR on my ${token.amount_locked.toLocaleString()} $REBAZ stake! You can too. #staking #DeFi #crypto`}
+                      />
+                      <button
+                        onClick={() => handleWithdraw(token.id)}
+                        className="rounded bg-[#1A2F1D] px-4 py-2 text-[#B4F481] transition-colors hover:bg-[#2A462C]"
+                      >
+                        withdraw
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
