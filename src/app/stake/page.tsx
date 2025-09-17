@@ -7,7 +7,7 @@ import { Loader2, Shield } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { projectService } from '../../lib/projectService'
 import { depositVault } from '../../lib/contracts/depositVault'
-
+import TweetButton from '@/components/TweetButton'
 interface AvailableProduct {
   id: string
   title: string
@@ -64,7 +64,10 @@ const Stake = () => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [stakeAmount] = useState('0.01')
-
+  {
+    /*------------ state for tracking staking status ---------  */
+  }
+  const [isStaking, setIsStaking] = useState(false)
   useEffect(() => {
     const checkWallet = async () => {
       try {
@@ -192,6 +195,10 @@ const Stake = () => {
             ])
           }
           toast.success('Successfully staked')
+          {
+            /*------------ updating state of staking ---------  */
+          }
+          setIsStaking(true)
         } else {
           throw new Error(result.error || 'Failed to stake product')
         }
@@ -334,6 +341,14 @@ const Stake = () => {
                     >
                       Lock
                     </button>
+                    {isStaking && (
+                      // ------------ Tweet Button here ---------
+                      <TweetButton
+                        text={
+                          '💪 Just staked my impact NFT on RegenBazar to earn rewards and drive real-world change 🌍🔥 Join the mission: https://regenbazar.com'
+                        }
+                      />
+                    )}
                   </div>
                 )}
                 <div className='p-4'>
@@ -369,7 +384,7 @@ const Stake = () => {
             {stakedTokens.map((token) => (
               <div
                 key={`staked-token-${token.id}`}
-                className='relative rounded-lg border border-gray-800 bg-black p-6'
+                className='relative h-60 rounded-lg border border-gray-800 bg-black p-6'
                 onMouseEnter={() => setHoveredItem(`staked-token-${token.id}`)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
@@ -406,14 +421,25 @@ const Stake = () => {
                     lock end date:{' '}
                     <span className='text-white'>{token.lock_end_date}</span>
                   </p>
-                  {hoveredItem === `staked-token-${token.id}` && (
-                    <button
-                      onClick={() => handleWithdraw(token.id)}
-                      className='rounded bg-[#1A2F1D] px-4 py-2 text-[#B4F481] transition-colors hover:bg-[#2A462C]'
-                    >
-                      withdraw
-                    </button>
-                  )}
+
+                  <div className='min-h-10'>
+                    {hoveredItem === `staked-token-${token.id}` && (
+                      <button
+                        onClick={() => handleWithdraw(token.id)}
+                        className='rounded bg-[#1A2F1D] px-4 py-2 text-[#B4F481] transition-colors hover:bg-[#2A462C]'
+                      >
+                        withdraw
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {/* // ------------ Tweet Button here --------- */}
+                <div className='mt-2'>
+                  <TweetButton
+                    text={
+                      '📈 Earned rewards by staking my #RWIP NFT on RegenBazar! Supporting the planet AND stacking gains — let’s go! 🌿💸 https://regenbazar.com'
+                    }
+                  />
                 </div>
               </div>
             ))}

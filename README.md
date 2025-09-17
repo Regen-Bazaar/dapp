@@ -19,7 +19,7 @@ RegenBazar is a decentralized application (dApp) that serves as a bridge between
 ## 🚀 Live Demo
 
 **Website**: [demo.regenbazar.com](https://demo.regenbazar.com)  
-*Hosted on Netlify using Cloudflare*
+_Hosted on Netlify using Cloudflare_
 
 ## 🛠️ Technology Stack
 
@@ -92,7 +92,8 @@ npm|bun run dev
 
 **Open the application:**
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-   ```
+
+```
 
 ## 🌱 Parent Project: EcoSynthesisX
 
@@ -160,3 +161,4 @@ This project is part of the EcoSynthesisX ecosystem and follows open-source prin
 ---
 
 *Building the future of regenerative economics through Web3 innovation* 🌱
+```
