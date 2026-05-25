@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Trophy, Award, Star } from 'lucide-react'
+import { SellerLeaderboard } from '@/components/SellerLeaderboard'
 
 const Leaderboard = () => {
   const [timeframe, setTimeframe] = useState<'weekly' | 'monthly' | 'allTime'>(
@@ -124,6 +125,10 @@ const Leaderboard = () => {
               {label}
             </button>
           ))}
+        </div>
+
+        <div className='mb-12'>
+          <SellerLeaderboard />
         </div>
 
         <div className='grid gap-12 md:grid-cols-2'>
