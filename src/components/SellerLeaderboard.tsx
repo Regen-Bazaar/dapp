@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Trophy, Award, Star, RefreshCw } from 'lucide-react'
 import {
   SellerLeaderboardEntry,
@@ -35,19 +35,23 @@ export const SellerLeaderboard = () => {
   const [entries, setEntries] = useState<SellerLeaderboardEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const loadRequestId = useRef(0)
 
   const load = useCallback(async () => {
+    const requestId = ++loadRequestId.current
     setLoading(true)
     setError(null)
     try {
       const data = await fetchSellerLeaderboard({ category })
+      if (requestId !== loadRequestId.current) return
       setEntries(data)
     } catch (err) {
+      if (requestId !== loadRequestId.current) return
       const message =
         err instanceof Error ? err.message : 'Failed to load seller leaderboard'
       setError(message)
     } finally {
-      setLoading(false)
+      if (requestId === loadRequestId.current) setLoading(false)
     }
   }, [category])
 
